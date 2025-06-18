@@ -358,6 +358,49 @@
             0% { left: -100%; }
             100% { left: 100%; }
         }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 1.05em;
+                padding: 5px;
+            }
+            .container {
+                padding: 10px;
+                border-radius: 0;
+            }
+            h1, h2, h3, h4 {
+                font-size: 1.1em;
+                padding-bottom: 5px;
+            }
+            .example-box, .step-box, .highlight, .author-box, .formula-box {
+                padding: 10px;
+                font-size: 0.98em;
+            }
+            table {
+                font-size: 0.95em;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            .toc {
+                padding: 10px;
+                font-size: 1em;
+            }
+        }
+
+        pre, code {
+            white-space: pre;
+            overflow-x: auto;
+            font-size: 1em;
+            background: transparent;
+            color: #e0e0e0;
+            border: none;
+        }
+        @media (max-width: 600px) {
+            pre, code {
+                font-size: 0.95em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -496,7 +539,9 @@
                 <div class="example-box interactive">
                     <strong>Contoh Perhitungan:</strong><br>
                     Untuk A1 pada kriteria C1 (Harga):<br>
-                    $r_{11} = \frac{80}{\sqrt{80^2 + 60^2 + 75^2 + 90^2}} = \frac{80}{\sqrt{6400 + 3600 + 5625 + 8100}} = \frac{80}{\sqrt{23725}} = \frac{80}{154.02} = 0.519$
+                    $$
+                    r_{11} = \frac{80}{\sqrt{80^2 + 60^2 + 75^2 + 90^2}} = \frac{80}{\sqrt{6400 + 3600 + 5625 + 8100}} = \frac{80}{\sqrt{23725}} = \frac{80}{154.02} = 0.519
+                    $$
                 </div>
             </div>
 
@@ -537,11 +582,11 @@
                 <p>Rumus untuk menentukan solusi ideal:</p>
                 <div class="formula-box">
                     <strong>Solusi Ideal Positif:</strong><br>
-                    $y_j^+ = \max(y_{ij})$ untuk kriteria benefit<br>
-                    $y_j^+ = \min(y_{ij})$ untuk kriteria cost<br><br>
+                    $$y_j^+ = \max(y_{ij})$$ untuk kriteria benefit<br>
+                    $$y_j^+ = \min(y_{ij})$$ untuk kriteria cost<br><br>
                     <strong>Solusi Ideal Negatif:</strong><br>
-                    $y_j^- = \min(y_{ij})$ untuk kriteria benefit<br>
-                    $y_j^- = \max(y_{ij})$ untuk kriteria cost
+                    $$y_j^- = \min(y_{ij})$$ untuk kriteria benefit<br>
+                    $$y_j^- = \max(y_{ij})$$ untuk kriteria cost
                 </div>
             </div>
 
@@ -727,10 +772,8 @@ import pandas as pd
 def topsis(data, weights, criteria_types):
     # Normalisasi
     normalized = data / np.sqrt(np.sum(data**2, axis=0))
-    
     # Matriks terbobot
     weighted = normalized * weights
-    
     # Solusi ideal
     ideal_best = np.where(criteria_types == 'benefit', 
                          np.max(weighted, axis=0), 
@@ -738,336 +781,206 @@ def topsis(data, weights, criteria_types):
     ideal_worst = np.where(criteria_types == 'benefit', 
                           np.min(weighted, axis=0), 
                           np.max(weighted, axis=0))
-    
     # Jarak Euclidean
     d_best = np.sqrt(np.sum((weighted - ideal_best)**2, axis=1))
     d_worst = np.sqrt(np.sum((weighted - ideal_worst)**2, axis=1))
-    
     # Nilai preferensi
     scores = d_worst / (d_best + d_worst)
-    
     return scores
                 </code></pre>
             </div>
 
-            <h3>🌐 Implementasi Web</h3>
-            <p>Untuk aplikasi web, TOPSIS dapat diimplementasikan menggunakan JavaScript:</p>
+            <h3>🌐 Implementasi dengan Web</h3>
+            <p>TOPSIS dapat diimplementasikan secara interaktif di web menggunakan teknologi modern:</p>
             <ul>
-                <li><strong>Frontend:</strong> HTML, CSS, JavaScript untuk interface</li>
-                <li><strong>Backend:</strong> PHP, Node.js, atau Python untuk kalkulasi</li>
-                <li><strong>Database:</strong> MySQL atau PostgreSQL untuk menyimpan data</li>
+                <li><strong>Frontend:</strong> React, Angular, Vue.js, atau vanilla JavaScript</li>
+                <li><strong>Backend:</strong> Node.js, Django, Flask, atau Express</li>
+                <li><strong>Database:</strong> MySQL, PostgreSQL, MongoDB, atau Firebase</li>
+                <li><strong>Deployment:</strong> AWS, Heroku, Netlify, atau Vercel</li>
             </ul>
         </div>
 
         <div id="keunggulan-kekurangan">
-            <h2>✅❌ Keunggulan dan Kekurangan Metode TOPSIS</h2>
+            <h2>✅❌ Analisis Keunggulan & Kekurangan</h2>
             
-            <h3>✅ Keunggulan TOPSIS</h3>
-            <ul>
-                <li><strong>Mudah Dipahami:</strong> Konsep logis yang mudah dipahami oleh pengguna non-teknis</li>
-                <li><strong>Efisien Komputasi:</strong> Perhitungan relatif sederhana dan cepat</li>
-                <li><strong>Fleksibel:</strong> Dapat menangani kriteria benefit dan cost</li>
-                <li><strong>Hasil Terukur:</strong> Memberikan nilai preferensi yang dapat diurutkan</li>
-                <li><strong>Stabil:</strong> Hasil tidak berubah drastis dengan perubahan kecil pada data</li>
-                <li><strong>Dokumentasi Lengkap:</strong> Banyak referensi dan studi kasus tersedia</li>
-            </ul>
+            <div class="step-box interactive">
+                <h3>🌟 Keunggulan TOPSIS</h3>
+                <ol>
+                    <li><strong>Menggunakan Logika:</strong> TOPSIS menggunakan logika matematika yang jelas dan mudah dipahami</li>
+                    <li><strong>Menggunakan Jarak Euclidean:</strong> TOPSIS mengukur kedekatan antar alternatif dengan jarak Euclidean</li>
+                    <li><strong>Menggunakan Solusi Ideal:</strong> TOPSIS menggunakan konsep solusi ideal positif dan negatif</li>
+                    <li><strong>Menggunakan Bobot:</strong> TOPSIS memungkinkan penggunaan bobot untuk setiap kriteria</li>
+                    <li><strong>Menggunakan Nilai Preferensi:</strong> TOPSIS menghasilkan nilai preferensi yang dapat diurutkan</li>
+                    <li><strong>Mudah Diimplementasikan:</strong> TOPSIS dapat diimplementasikan dengan mudah menggunakan Excel, Python, atau web</li>
+                </ol>
+            </div>
 
-            <h3>❌ Kekurangan TOPSIS</h3>
-            <ul>
-                <li><strong>Ketergantungan Bobot:</strong> Hasil sangat dipengaruhi oleh penentuan bobot kriteria</li>
-                <li><strong>Normalisasi Linear:</strong> Menggunakan normalisasi linear yang mungkin tidak optimal untuk semua kasus</li>
-                <li><strong>Korelasi Antar Kriteria:</strong> Tidak mempertimbangkan korelasi antar kriteria</li>
-                <li><strong>Skala Data:</strong> Sensitif terhadap skala data input</li>
-                <li><strong>Solusi Ideal:</strong> Bergantung pada data yang ada, bukan standar absolut</li>
-            </ul>
+            <div class="step-box interactive">
+                <h3>🚫 Kekurangan TOPSIS</h3>
+                <ol>
+                    <li><strong>Tidak Menggunakan Data Kualitatif:</strong> TOPSIS hanya menggunakan data kuantitatif</li>
+                    <li><strong>Tidak Menggunakan Nilai Tak Pasti:</strong> TOPSIS tidak menggunakan nilai tak pasti atau fuzzy</li>
+                    <li><strong>Tidak Menggunakan Nilai Tak Tetap:</strong> TOPSIS tidak menggunakan nilai tak tetap atau interval</li>
+                    <li><strong>Tidak Menggunakan Nilai Tak Terbatas:</strong> TOPSIS tidak menggunakan nilai tak terbatas atau unbounded</li>
+                    <li><strong>Tidak Menggunakan Nilai Tak Terurut:</strong> TOPSIS tidak menggunakan nilai tak terurut atau ordinal</li>
+                </ol>
+            </div>
 
-            <div class="highlight interactive">
-                <strong>💡 Tips Mengatasi Kekurangan:</strong>
+            <div class="step-box interactive">
+                <h3>💡 Tips Mengatasi Keterbatasan</h3>
                 <ul>
-                    <li>Gunakan metode yang tepat untuk menentukan bobot (AHP, Entropy, dll.)</li>
-                    <li>Lakukan validasi hasil dengan metode lain</li>
-                    <li>Pertimbangkan sensitivitas analisis untuk menguji stabilitas hasil</li>
+                    <li><strong>Gunakan Metode Lain:</strong> Gunakan metode lain seperti AHP, ELECTRE, atau VIKOR jika kriteria mengandung data kualitatif</li>
+                    <li><strong>Gunakan Metode Hibrid:</strong> Gunakan metode hibrid seperti TOPSIS-AHP, TOPSIS-ELECTRE, atau TOPSIS-VIKOR jika kriteria mengandung data kualitatif</li>
+                    <li><strong>Gunakan Metode Fuzzy:</strong> Gunakan metode fuzzy seperti TOPSIS-Fuzzy jika kriteria mengandung nilai tak pasti</li>
+                    <li><strong>Gunakan Metode Interval:</strong> Gunakan metode interval seperti TOPSIS-Interval jika kriteria mengandung nilai tak tetap</li>
+                    <li><strong>Gunakan Metode Unbounded:</strong> Gunakan metode unbounded seperti TOPSIS-Unbounded jika kriteria mengandung nilai tak terbatas</li>
+                    <li><strong>Gunakan Metode Ordinal:</strong> Gunakan metode ordinal seperti TOPSIS-Ordinal jika kriteria mengandung nilai tak terurut</li>
                 </ul>
             </div>
         </div>
 
         <div id="aplikasi">
-            <h2>🌍 Aplikasi TOPSIS dalam Berbagai Bidang</h2>
+            <h2>🌍 Aplikasi dalam Berbagai Bidang</h2>
             
-            <h3>🏢 Manajemen Bisnis</h3>
-            <ul>
-                <li><strong>Pemilihan Supplier:</strong> Evaluasi supplier berdasarkan harga, kualitas, ketepatan waktu</li>
-                <li><strong>Lokasi Bisnis:</strong> Pemilihan lokasi optimal berdasarkan aksesibilitas, biaya, potensi pasar</li>
-                <li><strong>Investasi:</strong> Evaluasi proyek investasi berdasarkan ROI, risiko, jangka waktu</li>
-                <li><strong>Pemilihan Teknologi:</strong> Evaluasi teknologi berdasarkan biaya, performa, kompatibilitas</li>
-            </ul>
+            <div class="step-box interactive">
+                <h3>🏢 Manajemen Bisnis</h3>
+                <ul>
+                    <li><strong>Pemilihan Supplier:</strong> Memilih supplier terbaik berdasarkan kriteria seperti harga, kualitas, ketepatan waktu, dan fleksibilitas</li>
+                    <li><strong>Pemilihan Lokasi Bisnis:</strong> Memilih lokasi bisnis terbaik berdasarkan kriteria seperti lokasi, aksesibilitas, fasilitas, dan biaya</li>
+                    <li><strong>Pemilihan Investasi:</strong> Memilih investasi terbaik berdasarkan kriteria seperti risiko, keuntungan, dan kelayakan</li>
+                </ul>
+            </div>
 
-            <h3>🏥 Kesehatan</h3>
-            <ul>
-                <li><strong>Pemilihan Metode Pengobatan:</strong> Evaluasi berdasarkan efektivitas, biaya, efek samping</li>
-                <li><strong>Pemilihan Rumah Sakit:</strong> Evaluasi berdasarkan kualitas layanan, jarak, biaya</li>
-                <li><strong>Alokasi Sumber Daya:</strong> Distribusi sumber daya kesehatan yang optimal</li>
-            </ul>
+            <div class="step-box interactive">
+                <h3>🏫 Pendidikan</h3>
+                <ul>
+                    <li><strong>Pemilihan Sekolah:</strong> Memilih sekolah terbaik berdasarkan kriteria seperti prestasi, fasilitas, lokasi, dan biaya</li>
+                    <li><strong>Pemilihan Jurusan:</strong> Memilih jurusan terbaik berdasarkan kriteria seperti minat, kemampuan, prospek, dan biaya</li>
+                    <li><strong>Pemilihan Metode Pembelajaran:</strong> Memilih metode pembelajaran terbaik berdasarkan kriteria seperti efektivitas, interaktif, dan fleksibel</li>
+                </ul>
+            </div>
 
-            <h3>🎓 Pendidikan</h3>
-            <ul>
-                <li><strong>Pemilihan Sekolah:</strong> Evaluasi berdasarkan akreditasi, biaya, lokasi</li>
-                <li><strong>Pemilihan Jurusan:</strong> Evaluasi berdasarkan prospek kerja, minat, kemampuan</li>
-                <li><strong>Evaluasi Guru:</strong> Penilaian kinerja guru berdasarkan berbagai kriteria</li>
-            </ul>
+            <div class="step-box interactive">
+                <h3>🏥 Kesehatan</h3>
+                <ul>
+                    <li><strong>Pemilihan Metode Pengobatan:</strong> Memilih metode pengobatan terbaik berdasarkan kriteria seperti efektivitas, keamanan, biaya, dan kenyamanan</li>
+                    <li><strong>Pemilihan Rumah Sakit:</strong> Memilih rumah sakit terbaik berdasarkan kriteria seperti fasilitas, keahlian, lokasi, dan biaya</li>
+                </ul>
+            </div>
 
-            <h3>🏭 Manufaktur</h3>
-            <ul>
-                <li><strong>Pemilihan Mesin:</strong> Evaluasi berdasarkan kapasitas, biaya, efisiensi</li>
-                <li><strong>Pemilihan Material:</strong> Evaluasi berdasarkan kekuatan, biaya, ketersediaan</li>
-                <li><strong>Layout Pabrik:</strong> Optimasi tata letak fasilitas produksi</li>
-            </ul>
+            <div class="step-box interactive">
+                <h3>💻 Teknologi</h3>
+                <ul>
+                    <li><strong>Pemilihan Software:</strong> Memilih software terbaik berdasarkan kriteria seperti fitur, kecepatan, keamanan, dan biaya</li>
+                    <li><strong>Pemilihan Hardware:</strong> Memilih hardware terbaik berdasarkan kriteria seperti spesifikasi, kecepatan, kehandalan, dan biaya</li>
+                    <li><strong>Pemilihan Teknologi:</strong> Memilih teknologi terbaik berdasarkan kriteria seperti inovasi, keunggulan, keamanan, dan biaya</li>
+                </ul>
+            </div>
 
-            <h3>🏛️ Pemerintahan</h3>
-            <ul>
-                <li><strong>Pemilihan Proyek:</strong> Evaluasi proyek pembangunan berdasarkan prioritas</li>
-                <li><strong>Alokasi Anggaran:</strong> Distribusi anggaran yang optimal</li>
-                <li><strong>Pemilihan Lokasi Fasilitas:</strong> Penempatan fasilitas publik yang strategis</li>
-            </ul>
+            <div class="step-box interactive">
+                <h3>🏛️ Pemerintahan</h3>
+                <ul>
+                    <li><strong>Pemilihan Proyek:</strong> Memilih proyek terbaik berdasarkan kriteria seperti biaya, manfaat, kelayakan, dan waktu</li>
+                    <li><strong>Alokasi Sumber Daya:</strong> Mengalokasikan sumber daya secara optimal berdasarkan kriteria seperti kebutuhan, ketersediaan, dan efisiensi</li>
+                </ul>
+            </div>
         </div>
 
         <div id="kesimpulan">
             <h2>🎯 Kesimpulan</h2>
+            <p>Metode TOPSIS adalah metode pengambilan keputusan multikriteria yang sangat berguna dan fleksibel. Dengan menggunakan logika matematika yang jelas, TOPSIS dapat membantu dalam memilih alternatif terbaik berdasarkan beberapa kriteria. TOPSIS telah digunakan secara luas dalam berbagai bidang, seperti manajemen bisnis, pendidikan, kesehatan, teknologi, dan pemerintahan.</p>
             
-            <p>Metode TOPSIS adalah alat yang sangat powerful untuk pengambilan keputusan multikriteria. Dengan konsep yang logis dan implementasi yang relatif sederhana, TOPSIS telah menjadi salah satu metode yang paling populer dalam sistem pendukung keputusan.</p>
-
             <div class="highlight interactive">
-                <strong>🔑 Poin-poin Penting:</strong>
+                <strong>📝 Catatan Penting:</strong>
                 <ul>
-                    <li>TOPSIS memilih alternatif terbaik berdasarkan kedekatan dengan solusi ideal positif dan jarak dari solusi ideal negatif</li>
-                    <li>Metode ini dapat menangani kriteria benefit dan cost secara bersamaan</li>
-                    <li>Hasil akhir berupa nilai preferensi yang dapat diurutkan untuk menentukan ranking</li>
-                    <li>Implementasi dapat dilakukan dengan berbagai tools: Excel, Python, atau aplikasi web</li>
-                    <li>Aplikasi sangat luas di berbagai bidang kehidupan</li>
+                    <li>TOPSIS hanya menggunakan data kuantitatif</li>
+                    <li>TOPSIS tidak menggunakan nilai tak pasti, tak tetap, tak terbatas, atau tak terurut</li>
+                    <li>Gunakan metode lain atau hibrid jika kriteria mengandung data kualitatif</li>
+                    <li>Gunakan metode fuzzy, interval, unbounded, atau ordinal jika kriteria mengandung nilai tak pasti, tak tetap, tak terbatas, atau tak terurut</li>
                 </ul>
             </div>
-
-            <p>Meskipun memiliki beberapa keterbatasan, TOPSIS tetap menjadi pilihan yang sangat baik untuk pengambilan keputusan multikriteria, terutama ketika kita membutuhkan metode yang mudah dipahami dan dapat memberikan hasil yang terukur.</p>
-
-            <p><strong>Semoga artikel ini bermanfaat untuk memahami dan mengimplementasikan metode TOPSIS!</strong> Silakan ikuti blog ini untuk artikel lanjutan seperti penerapan TOPSIS menggunakan Excel, Python, atau PHP, serta perbandingan dengan metode multikriteria lainnya seperti AHP, SAW, dan ELECTRE.</p>
         </div>
 
         <hr/>
 
         <div class="author-box interactive">
-            <p><em>📝 Ditulis oleh Arin – Mahasiswa Universitas Sembilanbelas November, pencinta ilmu dan teknologi</em></p>
-            <p><strong>📧 Kontak:</strong> arin@example.com | <strong>📱 WhatsApp:</strong> +62 812-3456-7890</p>
-            <p><strong>🏷️ Tag:</strong> #TOPSIS #PengambilanKeputusan #Multikriteria #SistemPendukungKeputusan #SPK #AnalisisData</p>
+            <h2>👨‍🎓 Tentang Penulis</h2>
+            <p>Halo! Perkenalkan, nama saya <strong>Arin</strong>, seorang mahasiswa di <strong>Universitas Sembilanbelas November</strong>. Saya memiliki minat besar dalam dunia teknologi, sistem informasi, dan metode analisis data untuk mendukung pengambilan keputusan.</p>
+            <p>Blog ini saya buat sebagai media berbagi pengetahuan, catatan kuliah, serta aplikasi praktis dari berbagai metode ilmiah, salah satunya adalah metode <strong>TOPSIS</strong> yang akan saya jelaskan secara lengkap dalam artikel ini.</p>
         </div>
     </div>
 
-    <!-- JavaScript untuk Animasi dan Interaksi -->
     <script>
-        // Custom Cursor untuk Desktop
-        const cursor = document.querySelector('.cursor');
-        const cursorFollower = document.querySelector('.cursor-follower');
-        
-        document.addEventListener('mousemove', (e) => {
-            if (window.innerWidth > 768) {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-                
-                setTimeout(() => {
-                    cursorFollower.style.left = e.clientX + 'px';
-                    cursorFollower.style.top = e.clientY + 'px';
-                }, 100);
-            }
-        });
-        
-        // Cursor hover effect
-        document.querySelectorAll('.interactive, a, button, .step-box, .example-box, .highlight, .author-box').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                if (window.innerWidth > 768) {
-                    cursor.style.transform = 'scale(1.5)';
-                    cursorFollower.style.transform = 'scale(0.5)';
-                }
-            });
-            
-            el.addEventListener('mouseleave', () => {
-                if (window.innerWidth > 768) {
-                    cursor.style.transform = 'scale(1)';
-                    cursorFollower.style.transform = 'scale(1)';
+        // Scroll reveal animation
+        const revealElements = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
             });
         });
-        
-        // Touch Ripple Effect untuk Mobile
-        function createRipple(event) {
-            const element = event.currentTarget;
-            const circle = document.createElement('span');
-            const diameter = Math.max(element.clientWidth, element.clientHeight);
-            const radius = diameter / 2;
-            
-            const rect = element.getBoundingClientRect();
-            circle.style.width = circle.style.height = `${diameter}px`;
-            circle.style.left = `${event.clientX - rect.left - radius}px`;
-            circle.style.top = `${event.clientY - rect.top - radius}px`;
-            circle.classList.add('touch-ripple');
-            
-            const ripple = element.getElementsByClassName('touch-ripple')[0];
-            if (ripple) {
-                ripple.remove();
-            }
-            
-            element.appendChild(circle);
-        }
-        
-        // Add ripple effect to interactive elements
-        document.querySelectorAll('.interactive, .step-box, .example-box, .highlight, .author-box, .toc li').forEach(el => {
-            el.addEventListener('click', createRipple);
-        });
-        
-        // Smooth scroll untuk TOC
-        document.querySelectorAll('.toc a').forEach(link => {
-            link.addEventListener('click', function(e) {
+        revealElements.forEach((el) => observer.observe(el));
+
+        // Smooth scroll and active highlight
+        const tocLinks = document.querySelectorAll('.toc a');
+        tocLinks.forEach((link) => {
+            link.addEventListener('click', (e) => {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
+                const targetId = link.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
                     window.scrollTo({
-                        top: target.offsetTop - 30,
+                        top: targetElement.offsetTop - 100,
                         behavior: 'smooth'
                     });
-                    
-                    // Highlight active TOC
-                    document.querySelectorAll('.toc li').forEach(li => li.classList.remove('active'));
-                    this.parentElement.classList.add('active');
-                    
-                    // Add pulse effect to target section
-                    target.classList.add('pulse');
-                    setTimeout(() => target.classList.remove('pulse'), 2000);
+                    tocLinks.forEach((l) => l.parentElement.classList.remove('active'));
+                    link.parentElement.classList.add('active');
                 }
             });
         });
-        
-        // Scroll reveal animation
-        function revealOnScroll() {
-            document.querySelectorAll('.reveal').forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight - 60) {
-                    el.classList.add('visible');
-                }
+
+        // Custom cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = (e.clientX - cursor.offsetWidth / 2) + 'px';
+            cursor.style.top = (e.clientY - cursor.offsetHeight / 2) + 'px';
+            cursorFollower.style.left = (e.clientX - cursorFollower.offsetWidth / 2) + 'px';
+            cursorFollower.style.top = (e.clientY - cursorFollower.offsetHeight / 2) + 'px';
+        });
+
+        // Touch animation
+        document.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            const ripple = document.createElement('div');
+            ripple.className = 'touch-ripple';
+            ripple.style.left = `${touch.clientX}px`;
+            ripple.style.top = `${touch.clientY}px`;
+            document.body.appendChild(ripple);
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // Interactive elements
+        const interactiveElements = document.querySelectorAll('.interactive');
+        interactiveElements.forEach((el) => {
+            el.addEventListener('mouseenter', () => {
+                el.classList.add('glow');
             });
-        }
-        
-        // Add reveal class to elements
-        window.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.step-box, .example-box, .highlight, .author-box, .formula-box, h2, h3').forEach(el => {
-                el.classList.add('reveal');
+            el.addEventListener('mouseleave', () => {
+                el.classList.remove('glow');
             });
-            revealOnScroll();
         });
-        
-        window.addEventListener('scroll', revealOnScroll);
-        
-        // Add interactive class to all interactive elements
-        document.querySelectorAll('.step-box, .example-box, .highlight, .formula-box').forEach(el => {
-            el.classList.add('interactive');
-        });
-        
-        // Floating animation for important elements
-        document.querySelectorAll('h1, .author-box').forEach(el => {
-            el.classList.add('float');
-        });
-        
-        // Glow effect for headings
-        document.querySelectorAll('h2, h3').forEach(el => {
-            el.classList.add('glow');
-        });
-        
-        // Loading animation for content
-        window.addEventListener('load', () => {
-            document.body.classList.add('loaded');
-        });
-        
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-                e.preventDefault();
-                const currentSection = document.querySelector('.toc li.active');
-                const tocItems = document.querySelectorAll('.toc li');
-                let currentIndex = Array.from(tocItems).indexOf(currentSection);
-                
-                if (e.key === 'ArrowDown') {
-                    currentIndex = Math.min(currentIndex + 1, tocItems.length - 1);
-                } else {
-                    currentIndex = Math.max(currentIndex - 1, 0);
-                }
-                
-                const targetLink = tocItems[currentIndex].querySelector('a');
-                if (targetLink) {
-                    targetLink.click();
-                }
-            }
-        });
-        
-        // Parallax effect for background
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallax = document.querySelector('.container');
-            const speed = scrolled * 0.5;
-            
-            if (parallax) {
-                parallax.style.transform = `translateY(${speed}px)`;
-            }
-        });
-        
-        // Add shake animation on error (example)
-        function showError(element) {
-            element.classList.add('shake');
-            setTimeout(() => element.classList.remove('shake'), 500);
-        }
-        
-        // Add loading animation
-        function addLoading(element) {
-            element.classList.add('loading');
-            setTimeout(() => element.classList.remove('loading'), 1500);
-        }
-        
-        // Initialize all animations
-        document.addEventListener('DOMContentLoaded', () => {
-            // Add loading effect to page load
-            addLoading(document.querySelector('.container'));
-            
-            // Auto-scroll to top button
-            const scrollTopBtn = document.createElement('button');
-            scrollTopBtn.innerHTML = '⬆️';
-            scrollTopBtn.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                background: #0066cc;
-                color: white;
-                border: none;
-                cursor: pointer;
-                z-index: 1000;
-                opacity: 0;
-                transition: opacity 0.3s;
-                box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
-            `;
-            
-            document.body.appendChild(scrollTopBtn);
-            
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) {
-                    scrollTopBtn.style.opacity = '1';
-                } else {
-                    scrollTopBtn.style.opacity = '0';
-                }
+
+        // Mobile touch feedback
+        interactiveElements.forEach((el) => {
+            el.addEventListener('touchstart', () => {
+                el.classList.add('shake');
             });
-            
-            scrollTopBtn.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+            el.addEventListener('touchend', () => {
+                el.classList.remove('shake');
             });
         });
     </script>
