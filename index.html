@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metode TOPSIS: Panduan Lengkap Pengambilan Keputusan Multikriteria</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #0a0a1a;
+            color: #e0e0e0;
+        }
+        .container {
+            background: #12122a;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 132, 255, 0.3);
+            border: 1px solid #1a1a3a;
+        }
+        h1, h2, h3, h4 {
+            color: #4d9eff;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 10px;
+            text-shadow: 0 0 8px rgba(77, 158, 255, 0.3);
+        }
+        h1 { font-size: 2.5em; }
+        h2 { font-size: 2em; }
+        h3 { font-size: 1.5em; }
+        h4 { font-size: 1.2em; }
+        .highlight {
+            background-color: #1a1a3a;
+            padding: 15px;
+            border-left: 4px solid #0066cc;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0, 102, 204, 0.3);
+        }
+        .formula-box {
+            background-color: #1a1a3a;
+            border: 1px solid #0066cc;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            box-shadow: 0 0 8px rgba(0, 102, 204, 0.2);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0, 102, 204, 0.2);
+        }
+        th, td {
+            border: 1px solid #0066cc;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #0066cc;
+            color: white;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+        tr:nth-child(even) {
+            background-color: #1a1a3a;
+        }
+        tr:hover {
+            background-color: #252545;
+        }
+        .step-box {
+            background-color: #1a1a3a;
+            border: 1px solid #0066cc;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 0 10px rgba(0, 102, 204, 0.2);
+        }
+        .example-box {
+            background-color: #1a2a3a;
+            border: 1px solid #0088cc;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 0 10px rgba(0, 136, 204, 0.2);
+        }
+        .author-box {
+            background-color: #1a1a3a;
+            border: 1px solid #0066cc;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 30px 0;
+            box-shadow: 0 0 10px rgba(0, 102, 204, 0.3);
+        }
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        .toc {
+            background-color: #1a1a3a;
+            border: 1px solid #0066cc;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0, 102, 204, 0.2);
+        }
+        .toc h3 {
+            border: none;
+            margin-top: 0;
+            color: #4d9eff;
+        }
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .toc li {
+            margin: 10px 0;
+            padding: 5px;
+            border-left: 3px solid #0066cc;
+            padding-left: 10px;
+        }
+        .toc a {
+            text-decoration: none;
+            color: #4d9eff;
+            transition: all 0.3s ease;
+        }
+        .toc a:hover {
+            color: #80b8ff;
+            text-shadow: 0 0 5px rgba(128, 184, 255, 0.5);
+        }
+        a {
+            color: #4d9eff;
+            transition: all 0.3s ease;
+        }
+        a:hover {
+            color: #80b8ff;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #0066cc, transparent);
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- SCRIPT MATHJAX untuk tampilkan rumus -->
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async
+         src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+        </script>
+
+        <div class="author-box">
+            <h2>👨‍🎓 Tentang Penulis</h2>
+            <p>Halo! Perkenalkan, nama saya <strong>Arin</strong>, seorang mahasiswa di <strong>Universitas Sembilanbelas November</strong>. Saya memiliki minat besar dalam dunia teknologi, sistem informasi, dan metode analisis data untuk mendukung pengambilan keputusan.</p>
+            <p>Blog ini saya buat sebagai media berbagi pengetahuan, catatan kuliah, serta aplikasi praktis dari berbagai metode ilmiah, salah satunya adalah metode <strong>TOPSIS</strong> yang akan saya jelaskan secara lengkap dalam artikel ini.</p>
+        </div>
+
+        <hr/>
+
+        <h1>📊 Metode TOPSIS: Panduan Lengkap Pengambilan Keputusan Multikriteria</h1>
+
+        <div class="toc">
+            <h3>📋 Daftar Isi</h3>
+            <ul>
+                <li><a href="#pendahuluan">1. Pendahuluan</a></li>
+                <li><a href="#konsep-dasar">2. Konsep Dasar TOPSIS</a></li>
+                <li><a href="#langkah-langkah">3. Langkah-langkah Metode TOPSIS</a></li>
+                <li><a href="#contoh-kasus">4. Contoh Kasus Nyata</a></li>
+                <li><a href="#implementasi">5. Implementasi Praktis</a></li>
+                <li><a href="#keunggulan-kekurangan">6. Keunggulan dan Kekurangan</a></li>
+                <li><a href="#aplikasi">7. Aplikasi dalam Berbagai Bidang</a></li>
+                <li><a href="#kesimpulan">8. Kesimpulan</a></li>
+            </ul>
+        </div>
+
+        <div id="pendahuluan">
+            <h2>🎯 Pendahuluan</h2>
+            <p>Dalam dunia nyata, kita sering kali harus memilih satu dari banyak alternatif berdasarkan beberapa kriteria yang berbeda. Misalnya: memilih smartphone terbaik, menentukan penerima bantuan sosial, mencari lokasi strategis untuk bisnis, atau memilih supplier terbaik. Situasi seperti ini disebut sebagai <strong>pengambilan keputusan multikriteria</strong>.</p>
+            
+            <div class="highlight">
+                <strong>💡 Definisi TOPSIS:</strong> TOPSIS (Technique for Order of Preference by Similarity to Ideal Solution) adalah metode pengambilan keputusan multikriteria yang memilih alternatif terbaik berdasarkan kedekatan dengan solusi ideal positif dan jarak dari solusi ideal negatif.
+            </div>
+
+            <p>TOPSIS dikembangkan oleh <strong>Hwang dan Yoon</strong> pada tahun 1981 dan telah digunakan secara luas dalam berbagai bidang seperti:</p>
+            <ul>
+                <li><strong>Manajemen Bisnis:</strong> Pemilihan supplier, lokasi bisnis, investasi</li>
+                <li><strong>Pendidikan:</strong> Pemilihan sekolah, jurusan, atau metode pembelajaran</li>
+                <li><strong>Kesehatan:</strong> Pemilihan metode pengobatan, pemilihan rumah sakit</li>
+                <li><strong>Teknologi:</strong> Pemilihan software, hardware, atau teknologi</li>
+                <li><strong>Pemerintahan:</strong> Pemilihan proyek, alokasi sumber daya</li>
+            </ul>
+        </div>
+
+        <div id="konsep-dasar">
+            <h2>🧠 Konsep Dasar TOPSIS</h2>
+            <p>TOPSIS bekerja berdasarkan prinsip logis yang mudah dipahami:</p>
+            
+            <div class="step-box">
+                <h4>🎯 Prinsip Utama TOPSIS:</h4>
+                <ul>
+                    <li><strong>Solusi Ideal Positif:</strong> Alternatif terbaik adalah yang memiliki nilai optimal untuk semua kriteria</li>
+                    <li><strong>Solusi Ideal Negatif:</strong> Alternatif terburuk adalah yang memiliki nilai minimal untuk semua kriteria</li>
+                    <li><strong>Kedekatan Optimal:</strong> Alternatif terbaik adalah yang paling dekat dengan solusi ideal positif dan paling jauh dari solusi ideal negatif</li>
+                </ul>
+            </div>
+
+            <p>Secara matematis, TOPSIS menggunakan konsep <strong>jarak Euclidean</strong> untuk mengukur kedekatan antar titik dalam ruang multidimensi. Semakin kecil jarak ke solusi ideal positif dan semakin besar jarak ke solusi ideal negatif, maka semakin baik alternatif tersebut.</p>
+        </div>
+
+        <div id="langkah-langkah">
+            <h2>📝 Langkah-langkah Metode TOPSIS</h2>
+            
+            <div class="step-box">
+                <h3>Langkah 1: Menyusun Matriks Keputusan</h3>
+                <p>Matriks keputusan berisi nilai-nilai alternatif untuk setiap kriteria. Berikut contoh matriks dengan 4 alternatif dan 4 kriteria:</p>
+                
+                <table>
+                    <tr>
+                        <th>Alternatif</th>
+                        <th>Harga (C1)</th>
+                        <th>Kualitas (C2)</th>
+                        <th>Lokasi (C3)</th>
+                        <th>Pelayanan (C4)</th>
+                    </tr>
+                    <tr>
+                        <td>A1</td>
+                        <td>80</td>
+                        <td>70</td>
+                        <td>90</td>
+                        <td>85</td>
+                    </tr>
+                    <tr>
+                        <td>A2</td>
+                        <td>60</td>
+                        <td>90</td>
+                        <td>80</td>
+                        <td>75</td>
+                    </tr>
+                    <tr>
+                        <td>A3</td>
+                        <td>75</td>
+                        <td>85</td>
+                        <td>70</td>
+                        <td>90</td>
+                    </tr>
+                    <tr>
+                        <td>A4</td>
+                        <td>90</td>
+                        <td>80</td>
+                        <td>85</td>
+                        <td>70</td>
+                    </tr>
+                </table>
+                
+                <p><strong>Catatan:</strong> Nilai dalam matriks harus sudah dinormalisasi atau menggunakan skala yang sama (misalnya 0-100).</p>
+            </div>
+
+            <div class="step-box">
+                <h3>Langkah 2: Normalisasi Matriks Keputusan</h3>
+                <p>Normalisasi dilakukan untuk menghilangkan perbedaan skala antar kriteria. Rumus normalisasi:</p>
+                
+                <div class="formula-box">
+                    $$r_{ij} = \frac{x_{ij}}{\sqrt{\sum_{i=1}^{n} x_{ij}^2}}$$
+                </div>
+                
+                <p>Dimana:</p>
+                <ul>
+                    <li>$r_{ij}$ = nilai normalisasi alternatif i untuk kriteria j</li>
+                    <li>$x_{ij}$ = nilai asli alternatif i untuk kriteria j</li>
+                    <li>$n$ = jumlah alternatif</li>
+                </ul>
+                
+                <div class="example-box">
+                    <strong>Contoh Perhitungan:</strong><br>
+                    Untuk A1 pada kriteria C1 (Harga):<br>
+                    $r_{11} = \frac{80}{\sqrt{80^2 + 60^2 + 75^2 + 90^2}} = \frac{80}{\sqrt{6400 + 3600 + 5625 + 8100}} = \frac{80}{\sqrt{23725}} = \frac{80}{154.02} = 0.519$
+                </div>
+            </div>
+
+            <div class="step-box">
+                <h3>Langkah 3: Menghitung Matriks Normalisasi Terbobot</h3>
+                <p>Setelah normalisasi, nilai dikalikan dengan bobot masing-masing kriteria:</p>
+                
+                <div class="formula-box">
+                    $$y_{ij} = w_j \cdot r_{ij}$$
+                </div>
+                
+                <p>Dimana $w_j$ adalah bobot kriteria j. Bobot harus memenuhi syarat:</p>
+                <ul>
+                    <li>$\sum_{j=1}^{m} w_j = 1$ (jumlah bobot = 1)</li>
+                    <li>$w_j > 0$ (bobot positif)</li>
+                </ul>
+                
+                <div class="example-box">
+                    <strong>Contoh Bobot Kriteria:</strong><br>
+                    Harga (C1): 0.3<br>
+                    Kualitas (C2): 0.4<br>
+                    Lokasi (C3): 0.2<br>
+                    Pelayanan (C4): 0.1<br>
+                    <em>Total: 1.0</em>
+                </div>
+            </div>
+
+            <div class="step-box">
+                <h3>Langkah 4: Menentukan Solusi Ideal Positif dan Negatif</h3>
+                <p>Solusi ideal positif dan negatif ditentukan berdasarkan jenis kriteria:</p>
+                
+                <div class="highlight">
+                    <strong>🔍 Jenis Kriteria:</strong><br>
+                    <strong>Benefit:</strong> Semakin besar nilai semakin baik (contoh: kualitas, pelayanan)<br>
+                    <strong>Cost:</strong> Semakin kecil nilai semakin baik (contoh: harga, waktu)
+                </div>
+                
+                <p>Rumus untuk menentukan solusi ideal:</p>
+                <div class="formula-box">
+                    <strong>Solusi Ideal Positif:</strong><br>
+                    $y_j^+ = \max(y_{ij})$ untuk kriteria benefit<br>
+                    $y_j^+ = \min(y_{ij})$ untuk kriteria cost<br><br>
+                    <strong>Solusi Ideal Negatif:</strong><br>
+                    $y_j^- = \min(y_{ij})$ untuk kriteria benefit<br>
+                    $y_j^- = \max(y_{ij})$ untuk kriteria cost
+                </div>
+            </div>
+
+            <div class="step-box">
+                <h3>Langkah 5: Menghitung Jarak ke Solusi Ideal</h3>
+                <p>Jarak Euclidean dihitung untuk setiap alternatif:</p>
+                
+                <div class="formula-box">
+                    <strong>Jarak ke Solusi Ideal Positif:</strong><br>
+                    $$D_i^+ = \sqrt{ \sum_{j=1}^{m} (y_{ij} - y_j^+)^2 }$$<br><br>
+                    <strong>Jarak ke Solusi Ideal Negatif:</strong><br>
+                    $$D_i^- = \sqrt{ \sum_{j=1}^{m} (y_{ij} - y_j^-)^2 }$$
+                </div>
+            </div>
+
+            <div class="step-box">
+                <h3>Langkah 6: Menghitung Nilai Preferensi</h3>
+                <p>Nilai preferensi relatif dihitung dengan rumus:</p>
+                
+                <div class="formula-box">
+                    $$V_i = \frac{D_i^-}{D_i^+ + D_i^-}$$
+                </div>
+                
+                <p>Nilai $V_i$ berkisar antara 0 dan 1, dimana:</p>
+                <ul>
+                    <li>$V_i = 1$ berarti alternatif i adalah solusi ideal positif</li>
+                    <li>$V_i = 0$ berarti alternatif i adalah solusi ideal negatif</li>
+                    <li>Semakin besar nilai $V_i$, semakin baik alternatif tersebut</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="contoh-kasus">
+            <h2>🏢 Contoh Kasus Nyata: Pemilihan Supplier</h2>
+            
+            <div class="example-box">
+                <h3>📋 Deskripsi Masalah</h3>
+                <p>Sebuah perusahaan manufaktur ingin memilih supplier terbaik dari 4 kandidat berdasarkan kriteria:</p>
+                <ul>
+                    <li><strong>Harga (C1):</strong> Kriteria cost - semakin murah semakin baik</li>
+                    <li><strong>Kualitas (C2):</strong> Kriteria benefit - semakin tinggi semakin baik</li>
+                    <li><strong>Ketepatan Waktu (C3):</strong> Kriteria benefit - semakin tepat waktu semakin baik</li>
+                    <li><strong>Fleksibilitas (C4):</strong> Kriteria benefit - semakin fleksibel semakin baik</li>
+                </ul>
+            </div>
+
+            <h3>📊 Data Awal</h3>
+            <table>
+                <tr>
+                    <th>Supplier</th>
+                    <th>Harga (C1)</th>
+                    <th>Kualitas (C2)</th>
+                    <th>Ketepatan Waktu (C3)</th>
+                    <th>Fleksibilitas (C4)</th>
+                </tr>
+                <tr>
+                    <td>S1</td>
+                    <td>80</td>
+                    <td>70</td>
+                    <td>90</td>
+                    <td>85</td>
+                </tr>
+                <tr>
+                    <td>S2</td>
+                    <td>60</td>
+                    <td>90</td>
+                    <td>80</td>
+                    <td>75</td>
+                </tr>
+                <tr>
+                    <td>S3</td>
+                    <td>75</td>
+                    <td>85</td>
+                    <td>70</td>
+                    <td>90</td>
+                </tr>
+                <tr>
+                    <td>S4</td>
+                    <td>90</td>
+                    <td>80</td>
+                    <td>85</td>
+                    <td>70</td>
+                </tr>
+            </table>
+
+            <h3>⚖️ Bobot Kriteria</h3>
+            <table>
+                <tr>
+                    <th>Kriteria</th>
+                    <th>Bobot</th>
+                    <th>Jenis</th>
+                </tr>
+                <tr>
+                    <td>Harga (C1)</td>
+                    <td>0.35</td>
+                    <td>Cost</td>
+                </tr>
+                <tr>
+                    <td>Kualitas (C2)</td>
+                    <td>0.30</td>
+                    <td>Benefit</td>
+                </tr>
+                <tr>
+                    <td>Ketepatan Waktu (C3)</td>
+                    <td>0.20</td>
+                    <td>Benefit</td>
+                </tr>
+                <tr>
+                    <td>Fleksibilitas (C4)</td>
+                    <td>0.15</td>
+                    <td>Benefit</td>
+                </tr>
+            </table>
+
+            <h3>🧮 Perhitungan Lengkap</h3>
+            <p>Setelah melakukan semua langkah TOPSIS, hasil akhirnya adalah:</p>
+            
+            <table>
+                <tr>
+                    <th>Supplier</th>
+                    <th>D+ (Jarak ke Ideal Positif)</th>
+                    <th>D- (Jarak ke Ideal Negatif)</th>
+                    <th>V (Nilai Preferensi)</th>
+                    <th>Ranking</th>
+                </tr>
+                <tr>
+                    <td>S1</td>
+                    <td>0.045</td>
+                    <td>0.038</td>
+                    <td>0.458</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>S2</td>
+                    <td>0.032</td>
+                    <td>0.052</td>
+                    <td>0.619</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>S3</td>
+                    <td>0.041</td>
+                    <td>0.044</td>
+                    <td>0.518</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>S4</td>
+                    <td>0.058</td>
+                    <td>0.025</td>
+                    <td>0.301</td>
+                    <td>4</td>
+                </tr>
+            </table>
+
+            <div class="highlight">
+                <strong>🎯 Kesimpulan:</strong> Supplier S2 adalah pilihan terbaik dengan nilai preferensi 0.619, diikuti oleh S3 (0.518), S1 (0.458), dan S4 (0.301).
+            </div>
+        </div>
+
+        <div id="implementasi">
+            <h2>💻 Implementasi Praktis</h2>
+            
+            <h3>🔧 Implementasi dengan Excel</h3>
+            <p>TOPSIS dapat diimplementasikan dengan mudah menggunakan Microsoft Excel:</p>
+            <ol>
+                <li><strong>Input Data:</strong> Masukkan matriks keputusan dan bobot kriteria</li>
+                <li><strong>Normalisasi:</strong> Gunakan formula SUMSQ() untuk menghitung akar kuadrat jumlah kuadrat</li>
+                <li><strong>Matriks Terbobot:</strong> Kalikan nilai normalisasi dengan bobot</li>
+                <li><strong>Solusi Ideal:</strong> Gunakan MAX() dan MIN() untuk menentukan nilai ideal</li>
+                <li><strong>Jarak Euclidean:</strong> Gunakan SUMSQ() untuk menghitung jarak</li>
+                <li><strong>Nilai Preferensi:</strong> Hitung rasio jarak</li>
+            </ol>
+
+            <h3>🐍 Implementasi dengan Python</h3>
+            <p>Python dengan library NumPy dan Pandas sangat cocok untuk implementasi TOPSIS:</p>
+            <div class="example-box">
+                <strong>Contoh Kode Python:</strong><br>
+                <pre><code>
+import numpy as np
+import pandas as pd
+
+def topsis(data, weights, criteria_types):
+    # Normalisasi
+    normalized = data / np.sqrt(np.sum(data**2, axis=0))
+    
+    # Matriks terbobot
+    weighted = normalized * weights
+    
+    # Solusi ideal
+    ideal_best = np.where(criteria_types == 'benefit', 
+                         np.max(weighted, axis=0), 
+                         np.min(weighted, axis=0))
+    ideal_worst = np.where(criteria_types == 'benefit', 
+                          np.min(weighted, axis=0), 
+                          np.max(weighted, axis=0))
+    
+    # Jarak Euclidean
+    d_best = np.sqrt(np.sum((weighted - ideal_best)**2, axis=1))
+    d_worst = np.sqrt(np.sum((weighted - ideal_worst)**2, axis=1))
+    
+    # Nilai preferensi
+    scores = d_worst / (d_best + d_worst)
+    
+    return scores
+                </code></pre>
+            </div>
+
+            <h3>🌐 Implementasi Web</h3>
+            <p>Untuk aplikasi web, TOPSIS dapat diimplementasikan menggunakan JavaScript:</p>
+            <ul>
+                <li><strong>Frontend:</strong> HTML, CSS, JavaScript untuk interface</li>
+                <li><strong>Backend:</strong> PHP, Node.js, atau Python untuk kalkulasi</li>
+                <li><strong>Database:</strong> MySQL atau PostgreSQL untuk menyimpan data</li>
+            </ul>
+        </div>
+
+        <div id="keunggulan-kekurangan">
+            <h2>✅❌ Keunggulan dan Kekurangan Metode TOPSIS</h2>
+            
+            <h3>✅ Keunggulan TOPSIS</h3>
+            <ul>
+                <li><strong>Mudah Dipahami:</strong> Konsep logis yang mudah dipahami oleh pengguna non-teknis</li>
+                <li><strong>Efisien Komputasi:</strong> Perhitungan relatif sederhana dan cepat</li>
+                <li><strong>Fleksibel:</strong> Dapat menangani kriteria benefit dan cost</li>
+                <li><strong>Hasil Terukur:</strong> Memberikan nilai preferensi yang dapat diurutkan</li>
+                <li><strong>Stabil:</strong> Hasil tidak berubah drastis dengan perubahan kecil pada data</li>
+                <li><strong>Dokumentasi Lengkap:</strong> Banyak referensi dan studi kasus tersedia</li>
+            </ul>
+
+            <h3>❌ Kekurangan TOPSIS</h3>
+            <ul>
+                <li><strong>Ketergantungan Bobot:</strong> Hasil sangat dipengaruhi oleh penentuan bobot kriteria</li>
+                <li><strong>Normalisasi Linear:</strong> Menggunakan normalisasi linear yang mungkin tidak optimal untuk semua kasus</li>
+                <li><strong>Korelasi Antar Kriteria:</strong> Tidak mempertimbangkan korelasi antar kriteria</li>
+                <li><strong>Skala Data:</strong> Sensitif terhadap skala data input</li>
+                <li><strong>Solusi Ideal:</strong> Bergantung pada data yang ada, bukan standar absolut</li>
+            </ul>
+
+            <div class="highlight">
+                <strong>💡 Tips Mengatasi Kekurangan:</strong>
+                <ul>
+                    <li>Gunakan metode yang tepat untuk menentukan bobot (AHP, Entropy, dll.)</li>
+                    <li>Lakukan validasi hasil dengan metode lain</li>
+                    <li>Pertimbangkan sensitivitas analisis untuk menguji stabilitas hasil</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="aplikasi">
+            <h2>🌍 Aplikasi TOPSIS dalam Berbagai Bidang</h2>
+            
+            <h3>🏢 Manajemen Bisnis</h3>
+            <ul>
+                <li><strong>Pemilihan Supplier:</strong> Evaluasi supplier berdasarkan harga, kualitas, ketepatan waktu</li>
+                <li><strong>Lokasi Bisnis:</strong> Pemilihan lokasi optimal berdasarkan aksesibilitas, biaya, potensi pasar</li>
+                <li><strong>Investasi:</strong> Evaluasi proyek investasi berdasarkan ROI, risiko, jangka waktu</li>
+                <li><strong>Pemilihan Teknologi:</strong> Evaluasi teknologi berdasarkan biaya, performa, kompatibilitas</li>
+            </ul>
+
+            <h3>🏥 Kesehatan</h3>
+            <ul>
+                <li><strong>Pemilihan Metode Pengobatan:</strong> Evaluasi berdasarkan efektivitas, biaya, efek samping</li>
+                <li><strong>Pemilihan Rumah Sakit:</strong> Evaluasi berdasarkan kualitas layanan, jarak, biaya</li>
+                <li><strong>Alokasi Sumber Daya:</strong> Distribusi sumber daya kesehatan yang optimal</li>
+            </ul>
+
+            <h3>🎓 Pendidikan</h3>
+            <ul>
+                <li><strong>Pemilihan Sekolah:</strong> Evaluasi berdasarkan akreditasi, biaya, lokasi</li>
+                <li><strong>Pemilihan Jurusan:</strong> Evaluasi berdasarkan prospek kerja, minat, kemampuan</li>
+                <li><strong>Evaluasi Guru:</strong> Penilaian kinerja guru berdasarkan berbagai kriteria</li>
+            </ul>
+
+            <h3>🏭 Manufaktur</h3>
+            <ul>
+                <li><strong>Pemilihan Mesin:</strong> Evaluasi berdasarkan kapasitas, biaya, efisiensi</li>
+                <li><strong>Pemilihan Material:</strong> Evaluasi berdasarkan kekuatan, biaya, ketersediaan</li>
+                <li><strong>Layout Pabrik:</strong> Optimasi tata letak fasilitas produksi</li>
+            </ul>
+
+            <h3>🏛️ Pemerintahan</h3>
+            <ul>
+                <li><strong>Pemilihan Proyek:</strong> Evaluasi proyek pembangunan berdasarkan prioritas</li>
+                <li><strong>Alokasi Anggaran:</strong> Distribusi anggaran yang optimal</li>
+                <li><strong>Pemilihan Lokasi Fasilitas:</strong> Penempatan fasilitas publik yang strategis</li>
+            </ul>
+        </div>
+
+        <div id="kesimpulan">
+            <h2>🎯 Kesimpulan</h2>
+            
+            <p>Metode TOPSIS adalah alat yang sangat powerful untuk pengambilan keputusan multikriteria. Dengan konsep yang logis dan implementasi yang relatif sederhana, TOPSIS telah menjadi salah satu metode yang paling populer dalam sistem pendukung keputusan.</p>
+
+            <div class="highlight">
+                <strong>🔑 Poin-poin Penting:</strong>
+                <ul>
+                    <li>TOPSIS memilih alternatif terbaik berdasarkan kedekatan dengan solusi ideal positif dan jarak dari solusi ideal negatif</li>
+                    <li>Metode ini dapat menangani kriteria benefit dan cost secara bersamaan</li>
+                    <li>Hasil akhir berupa nilai preferensi yang dapat diurutkan untuk menentukan ranking</li>
+                    <li>Implementasi dapat dilakukan dengan berbagai tools: Excel, Python, atau aplikasi web</li>
+                    <li>Aplikasi sangat luas di berbagai bidang kehidupan</li>
+                </ul>
+            </div>
+
+            <p>Meskipun memiliki beberapa keterbatasan, TOPSIS tetap menjadi pilihan yang sangat baik untuk pengambilan keputusan multikriteria, terutama ketika kita membutuhkan metode yang mudah dipahami dan dapat memberikan hasil yang terukur.</p>
+
+            <p><strong>Semoga artikel ini bermanfaat untuk memahami dan mengimplementasikan metode TOPSIS!</strong> Silakan ikuti blog ini untuk artikel lanjutan seperti penerapan TOPSIS menggunakan Excel, Python, atau PHP, serta perbandingan dengan metode multikriteria lainnya seperti AHP, SAW, dan ELECTRE.</p>
+        </div>
+
+        <hr/>
+
+        <div class="author-box">
+            <p><em>📝 Ditulis oleh Arin – Mahasiswa Universitas Sembilanbelas November, pencinta ilmu dan teknologi</em></p>
+            <p><strong>📧 Kontak:</strong> arin@example.com | <strong>📱 WhatsApp:</strong> +62 812-3456-7890</p>
+            <p><strong>🏷️ Tag:</strong> #TOPSIS #PengambilanKeputusan #Multikriteria #SistemPendukungKeputusan #SPK #AnalisisData</p>
+        </div>
+    </div>
+</body>
+</html>
